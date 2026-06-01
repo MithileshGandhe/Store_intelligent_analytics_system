@@ -1,0 +1,88 @@
+{
+  "store_id": "STORE_BLR_002",
+  "store_name": "Purplle Beauty Store - Bangalore Indiranagar",
+  "dimensions": {
+    "width_m": 25.0,
+    "height_m": 18.0
+  },
+  "zones": [
+    {
+      "zone_id": "ENTRY",
+      "zone_name": "Entry / Exit Area",
+      "polygon": [[0.0, 0.0], [0.25, 0.0], [0.25, 0.2], [0.0, 0.2]],
+      "zone_type": "transition"
+    },
+    {
+      "zone_id": "SKINCARE",
+      "zone_name": "Skincare Section",
+      "polygon": [[0.0, 0.2], [0.4, 0.2], [0.4, 0.55], [0.0, 0.55]],
+      "zone_type": "product",
+      "sku_zone": "MOISTURISER"
+    },
+    {
+      "zone_id": "HAIRCARE",
+      "zone_name": "Haircare Section",
+      "polygon": [[0.4, 0.2], [0.75, 0.2], [0.75, 0.55], [0.4, 0.55]],
+      "zone_type": "product",
+      "sku_zone": "SHAMPOO"
+    },
+    {
+      "zone_id": "MAKEUP",
+      "zone_name": "Makeup & Cosmetics",
+      "polygon": [[0.0, 0.55], [0.5, 0.55], [0.5, 0.8], [0.0, 0.8]],
+      "zone_type": "product",
+      "sku_zone": "LIPSTICK"
+    },
+    {
+      "zone_id": "FRAGRANCE",
+      "zone_name": "Fragrances",
+      "polygon": [[0.5, 0.55], [0.75, 0.55], [0.75, 0.8], [0.5, 0.8]],
+      "zone_type": "product",
+      "sku_zone": "PERFUME"
+    },
+    {
+      "zone_id": "BILLING",
+      "zone_name": "Billing Counter",
+      "polygon": [[0.75, 0.0], [1.0, 0.0], [1.0, 0.5], [0.75, 0.5]],
+      "zone_type": "billing"
+    },
+    {
+      "zone_id": "PROMO",
+      "zone_name": "Promotional Display",
+      "polygon": [[0.25, 0.0], [0.75, 0.0], [0.75, 0.2], [0.25, 0.2]],
+      "zone_type": "product",
+      "sku_zone": "OFFER_COMBO"
+    },
+    {
+      "zone_id": "WELLNESS",
+      "zone_name": "Wellness & Personal Care",
+      "polygon": [[0.75, 0.5], [1.0, 0.5], [1.0, 1.0], [0.75, 1.0]],
+      "zone_type": "product",
+      "sku_zone": "BODYLOTION"
+    }
+  ],
+  "cameras": [
+    {
+      "camera_id": "CAM_ENTRY_01",
+      "position": "ENTRY",
+      "type": "overhead",
+      "covers_zones": ["ENTRY", "PROMO"]
+    },
+    {
+      "camera_id": "CAM_FLOOR_01",
+      "position": "CENTER",
+      "type": "angled",
+      "covers_zones": ["SKINCARE", "HAIRCARE", "MAKEUP", "FRAGRANCE"]
+    },
+    {
+      "camera_id": "CAM_BILLING_01",
+      "position": "BILLING",
+      "type": "overhead",
+      "covers_zones": ["BILLING", "WELLNESS"]
+    }
+  ],
+  "entry_line": {
+    "y_threshold": 0.15,
+    "direction": "top_to_bottom_is_entry"
+  }
+}
