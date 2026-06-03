@@ -34,7 +34,7 @@ API_URL=""
 SYNTHETIC=0
 STORE_LAYOUT="${PROJECT_DIR}/data/store_layout.json"
 FPS=5
-DETECTOR="dummy"
+DETECTOR="yolo"
 
 # --------------------------------------------------------------------------- #
 #  Parse arguments                                                            #

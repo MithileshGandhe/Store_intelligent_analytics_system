@@ -313,9 +313,9 @@ Examples:
     parser.add_argument(
         "--detector", "-d",
         type=str,
-        default="dummy",
+        default="yolo",
         choices=list(DETECTOR_REGISTRY.keys()),
-        help="Detector backend (default: dummy)",
+        help="Detector backend (default: yolo)",
     )
     parser.add_argument(
         "--fps",

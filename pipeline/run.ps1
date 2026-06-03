@@ -21,7 +21,7 @@ param(
     [int]$Synthetic = 0,
     [string]$StoreLayout = "",
     [float]$Fps = 5.0,
-    [string]$Detector = "dummy"
+    [string]$Detector = "yolo"
 )
 
 # --------------------------------------------------------------------------- #

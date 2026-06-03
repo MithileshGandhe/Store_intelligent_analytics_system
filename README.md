@@ -30,7 +30,6 @@ python -m pipeline.detect --synthetic 500 --store STORE_BLR_002 --camera CAM_ENT
 store-intelligence/
 ├── pipeline/                  # Detection pipeline
 │   ├── detector_base.py       # Abstract detector interface
-│   ├── dummy_detector.py      # Synthetic detector (swap for YOLOv8)
 │   ├── tracker.py             # Visitor tracking + Re-ID
 │   ├── emit.py                # Event schema + emission
 │   ├── detect.py              # Main orchestrator (CLI)
