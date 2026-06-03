@@ -1,0 +1,138 @@
+# ============================================================================
+# Store Intelligence Training Pipeline — Configuration
+# ============================================================================
+# This file centralises all parameters for data preparation, model training,
+# and inference.  Edit the `stores` section to match your actual footage.
+# ============================================================================
+
+# ---------------------------------------------------------------------------
+# Store & Camera Definitions
+# ---------------------------------------------------------------------------
+stores:
+  store1:
+    store_id: "STORE_01"
+    store_code: "store_01"          # production event schema field
+    layout_image: "layout.png"     # floor-plan image in store folder
+    cameras:
+      cam1_zone:
+        file: "cam1_zone.mp4"
+        type: "angled"              # angled / overhead
+        role: "zone"                # zone / entry / billing
+        covers_zones: []            # filled by calibrate_layout.py
+      cam2_zone:
+        file: "cam2_zone.mp4"
+        type: "angled"
+        role: "zone"
+        covers_zones: []
+      cam3_entry:
+        file: "cam3_entry.mp4"
+        type: "overhead"
+        role: "entry"
+        covers_zones: ["ENTRY"]
+      cam4_billing:
+        file: "cam4_billing.mp4"
+        type: "overhead"
+        role: "billing"
+        covers_zones: ["BILLING"]
+
+  store2:
+    store_id: "STORE_02"
+    store_code: "store_02"
+    layout_image: "layout.png"
+    cameras:
+      cam1_zone:
+        file: "cam1_zone.mp4"
+        type: "angled"
+        role: "zone"
+        covers_zones: []
+      cam2_entry1:
+        file: "cam2_entry1.mp4"
+        type: "overhead"
+        role: "entry"
+        covers_zones: ["ENTRY"]
+      cam3_entry2:
+        file: "cam3_entry2.mp4"
+        type: "overhead"
+        role: "entry"
+        covers_zones: ["ENTRY"]
+      cam4_billing:
+        file: "cam4_billing.mp4"
+        type: "overhead"
+        role: "billing"
+        covers_zones: ["BILLING"]
+
+# ---------------------------------------------------------------------------
+# Frame Extraction  (prepare_frames.py)
+# ---------------------------------------------------------------------------
+frame_extraction:
+  fps: 1.0                          # frames per second to extract
+  skip_duplicates: true             # skip near-identical frames
+  similarity_threshold: 0.95        # SSIM threshold for duplicate detection
+  output_format: "jpg"              # jpg | png
+  quality: 95                       # JPEG quality (1-100)
+
+# ---------------------------------------------------------------------------
+# Person Detection  (pre-trained YOLOv8 — NO fine-tuning)
+# ---------------------------------------------------------------------------
+yolo:
+  model: "yolov8s.pt"              # yolov8n / yolov8s / yolov8m
+  conf_threshold: 0.35             # detection confidence threshold
+  iou_threshold: 0.45              # NMS IoU threshold
+  person_class_id: 0               # COCO class 0 = person
+  imgsz: 640                       # inference image size
+  device: "auto"                   # auto / cpu / cuda:0
+
+# ---------------------------------------------------------------------------
+# Staff Classifier  (MobileNetV3 transfer learning)
+# ---------------------------------------------------------------------------
+staff_classifier:
+  base_model: "mobilenetv3_small_100"  # timm model name
+  input_size: 224
+  epochs: 30
+  batch_size: 32
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  warmup_epochs: 3
+  freeze_backbone_epochs: 10       # freeze backbone for first N epochs
+  augmentation:
+    horizontal_flip: true
+    brightness_jitter: 0.2
+    contrast_jitter: 0.2
+    rotation_degrees: 15
+
+# ---------------------------------------------------------------------------
+# Re-ID Feature Extractor  (OSNet transfer learning)
+# ---------------------------------------------------------------------------
+reid:
+  base_model: "osnet_x0_25"        # lightweight Re-ID backbone
+  embedding_dim: 128               # output feature vector dimension
+  epochs: 30
+  batch_size: 32
+  learning_rate: 0.0003
+  weight_decay: 0.0005
+  warmup_epochs: 5
+  loss: "triplet"                  # triplet / softmax_triplet
+  margin: 0.3                      # triplet loss margin
+  mining: "hard"                   # hard / semi-hard / random
+
+# ---------------------------------------------------------------------------
+# Tracker Parameters  (mirror pipeline/tracker.py defaults)
+# ---------------------------------------------------------------------------
+tracker:
+  reid_similarity_threshold: 0.75
+  dwell_emit_interval_s: 30.0
+  lost_timeout_s: 5.0
+  entry_y_threshold: 0.15
+  entry_direction: "top_to_bottom_is_entry"
+
+# ---------------------------------------------------------------------------
+# Paths (relative to training/ root)
+# ---------------------------------------------------------------------------
+paths:
+  raw_data: "data/raw"
+  frames: "data/frames"
+  yolo_dataset: "data/yolo_dataset"
+  staff_dataset: "data/staff_dataset"
+  reid_dataset: "data/reid_dataset"
+  layouts: "data/layouts"
+  models_output: "models/weights"

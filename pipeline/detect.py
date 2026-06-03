@@ -60,11 +60,19 @@ logger = logging.getLogger("pipeline.detect")
 # ║  4. Use it via CLI: --detector <your_key>                               ║
 # ╚══════════════════════════════════════════════════════════════════════════╝
 
+try:
+    from training.models.yolo_detector import YOLODetector
+    has_yolo = True
+except ImportError as e:
+    logger.warning("Could not import YOLODetector. YOLO detector backend will be unavailable. Error: %s", e)
+    has_yolo = False
+
 DETECTOR_REGISTRY: dict = {
     "dummy": DummyDetector,
-    # "yolo": YOLODetector,       # Uncomment when YOLOv8 detector is ready
-    # "rtdetr": RTDETRDetector,   # Uncomment when RT-DETR detector is ready
 }
+if has_yolo:
+    DETECTOR_REGISTRY["yolo"] = YOLODetector
+
 
 
 # --------------------------------------------------------------------------- #
@@ -338,6 +346,30 @@ Examples:
         action="store_true",
         help="Enable debug logging",
     )
+    parser.add_argument(
+        "--weights-path",
+        type=str,
+        default="yolov8s.pt",
+        help="Path to YOLOv8 model weights",
+    )
+    parser.add_argument(
+        "--staff-model-path",
+        type=str,
+        default=None,
+        help="Path to staff classifier .pth model weights",
+    )
+    parser.add_argument(
+        "--reid-model-path",
+        type=str,
+        default=None,
+        help="Path to Re-ID embedding .pth model weights",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="auto",
+        help="Device to run inference on: cpu | cuda | auto",
+    )
 
     return parser.parse_args()
 
@@ -410,6 +442,10 @@ def main() -> None:
     detector.initialize({
         "camera_type": "overhead" if "ENTRY" in args.camera or "BILLING" in args.camera else "angled",
         "seed": 42,
+        "weights_path": args.weights_path,
+        "staff_model_path": args.staff_model_path,
+        "reid_model_path": args.reid_model_path,
+        "device": args.device,
     })
     logger.info("Detector: %s (%s)", args.detector, detector_cls.__name__)
 

@@ -8,7 +8,7 @@ Built for the Apex Retail Engineering Hiring Challenge.
 
 ```bash
 # 1. Clone the repository
-git clone <repo-url> && cd store-intelligence
+git clone https://github.com/MithileshGandhe/Store_intelligent_analytics_system && cd store-intelligence
 
 # 2. Start the API + database
 docker compose up -d
