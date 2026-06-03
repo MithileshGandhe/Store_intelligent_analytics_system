@@ -61,9 +61,8 @@ store-intelligence/
 │   ├── store_layout.json
 │   ├── pos_transactions.csv
 │   └── sample_events.jsonl
-├── docs/
-│   ├── DESIGN.md              # Architecture + AI-assisted decisions
-│   └── CHOICES.md             # 3 key technical decisions
+├── DESIGN.md                  # Architecture + AI-assisted decisions
+├── CHOICES.md                 # 3 key technical decisions
 ├── docker-compose.yml
 ├── Dockerfile
 ├── Dockerfile.pipeline
@@ -206,9 +205,9 @@ docker compose down -v
 
 ## Architecture
 
-See [DESIGN.md](docs/DESIGN.md) for full architecture overview and AI-assisted decisions.
+See [DESIGN.md](DESIGN.md) for full architecture overview and AI-assisted decisions.
 
-See [CHOICES.md](docs/CHOICES.md) for key technical decisions with reasoning.
+See [CHOICES.md](CHOICES.md) for key technical decisions with reasoning.
 
 ## Local Development (Without Docker)
 
