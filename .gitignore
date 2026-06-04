@@ -27,7 +27,7 @@ htmlcov/
 coverage.xml
 
 # Database & SQLite temporary files
-*.db
+# *.db
 *.db-journal
 *.db-shm
 *.db-wal
