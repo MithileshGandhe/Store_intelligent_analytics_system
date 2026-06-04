@@ -23,6 +23,7 @@ COPY --from=builder /install /usr/local
 COPY app/ ./app/
 COPY dashboard/ ./dashboard/
 COPY data/ ./data/
+COPY store_intelligence.db ./store_intelligence.db
 
 # Create output directory
 RUN mkdir -p /app/output
